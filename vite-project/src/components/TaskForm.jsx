@@ -47,7 +47,7 @@ export default function TaskForm( {setTasks} ) {
 	console.log(taskData.tags); //태그 선택을 확인
 
 
-    //선택된 태그아이템중 tag가 있으면 true 없으면 false
+    //선택된 태그 아이템 중 tag가 있으면 true 없으면 false
 	const checkTag = (tag) => {
 		return taskData.tags.some((item) => item === tag);
 	};

@@ -1,4 +1,3 @@
-import Todo from '../assets/direct-hit.png';
 import './TaskColumn2.css';
 import TaskCard2 from "./TaskCard2.jsx";
 
@@ -10,9 +9,7 @@ export default function TaskColumn2( {title, icon, tasks, status, handleDelete})
                 {title}
             </h2>
 
-            {/* eslint-disable-next-line react/prop-types */}
             {tasks.length > 0
-                // eslint-disable-next-line react/prop-types
                 ? tasks.map(
                     (task, index) =>
                         task.status === status &&

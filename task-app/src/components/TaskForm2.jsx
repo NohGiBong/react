@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import './TaskForm2.css';
 import Tag2 from "./Tag2.jsx";
 
 export default function TaskForm2( {setTasks}) {
-	const [task, setTask] = useState('');
-	const [status, setStatus] = useState('');
 	const [taskData, setTaskData] = useState({
 		task: '',
 		status: 'todo',
@@ -50,7 +48,6 @@ export default function TaskForm2( {setTasks}) {
 		return taskData.tags.some((item) => item === tag);
 	};
 
-
 	return (
 		<header className='app_header'>
 			<form onSubmit={handleSubmit}>
@@ -64,10 +61,14 @@ export default function TaskForm2( {setTasks}) {
 				/>
 				<div className='task_form_bottom_line'>
 					<div>
-						<Tag2 tagName='HTML' selectTag={selectTag} selected={checkTag('HTML')}/>
-						<Tag2 tagName='CSS' selectTag={selectTag} selected={checkTag('CSS')}/>
-						<Tag2 tagName='JavaScript' selectTag={selectTag} selected={checkTag('JavaScript')}/>
-						<Tag2 tagName='React' selectTag={selectTag} selected={checkTag('React')}/>
+						{['HTML', 'CSS', 'JavaScript', 'React'].map((tagName) => (
+							<Tag2
+								key={tagName}
+								tagName={tagName}
+								selectTag={() => selectTag(tagName)}
+								selected={checkTag(tagName)}
+							/>
+						))}
 					</div>
 					<div>
 						<select
