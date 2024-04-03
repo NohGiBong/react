@@ -42,12 +42,13 @@ import Diary from "./chapter11_ex3/Diary";
 import Diary2 from "./chapter11_ex4/Diary2";
 import Calculator from "./chapter12/Calculator";
 import ProfileCard from "./chapter13/ProfileCard";
+import LoginPage3 from "./chapter14_ex/LoginPage3";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <React.StrictMode>
-        <Diary />
+        <LoginPage3 />
     </React.StrictMode>
 );
 
