@@ -1,8 +1,8 @@
-import {useContext} from "react";
+import { useContext } from "react";
 import LoginContext from "./LoginContext";
 
 function Login() {
-    const { submit, inputId, inputPw, setUserId, setUserPw, result}
+    const { submit, inputId, inputPw, setUserId, setUserPw, result }
         = useContext(LoginContext);
 
     return (
@@ -12,7 +12,7 @@ function Login() {
                                 onChange={(e) => setUserId(e.target.value)} />
                 </p>
                 <p>비밀번호 : <input ref={inputPw} type="password"
-                                onChange={(e) => setUserPw(e.target.value)} />
+                                 onChange={(e) => setUserPw(e.target.value)} />
                 </p>
                 <button>로그인</button>
             </form>

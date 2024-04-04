@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import Login from "./Login";
-import Logout from "./Logout"
+import Logout from "./Logout";
 import LoginContext from "./LoginContext";
 
 const USER_ID = "user";
@@ -50,24 +50,23 @@ function LoginPage3() {
     }
 
     return (
-            <div>
-                {
-                    !isLoggedIn && (
-                        <LoginContext.Provider
-                            value={{submit, inputId, inputPw, setUserId, setUserPw, result}}>
-                            <Login />
-                        </LoginContext.Provider>
-                    )
-                }
-                {
-                    isLoggedIn && (
-                        <LoginContext.Provider
-                            value={{userId, onClickLogout}}>
-                            <Logout />
-                        </LoginContext.Provider>
-                    )
-                }
-            </div>
+        <div>
+            {
+                !isLoggedIn && (
+                    <LoginContext.Provider
+                        value={{ submit, inputId, inputPw, setUserId, setUserPw, result }}>
+                        <Login />
+                    </LoginContext.Provider>
+                )
+            }
+            {
+                isLoggedIn && (
+                    <LoginContext.Provider value={{ userId, onClickLogout }}>
+                        <Logout />
+                    </LoginContext.Provider>
+                )
+            }
+        </div>
     );
 }
 
