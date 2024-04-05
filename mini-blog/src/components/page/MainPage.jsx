@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PostList from "../list/PostList";
 import Button from "../ui/Button";
-import data from "../../data.json";
+// import data from "../../data.json";
+import axios from "axios";
+
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -24,6 +27,16 @@ const Container = styled.div`
 
 function MainPage() {
     const navigate = useNavigate();
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios.get("/blog/list")
+            .then(response => {
+                console.log(response.data);
+                setData(response.data)
+            })
+            .catch(error => console.error(error));
+    }, []);
 
     return (
         <Wrapper>
@@ -36,7 +49,7 @@ function MainPage() {
 
                 <PostList posts={data}
                     onClickItem={(item) => {
-                        navigate(`/post/${item.id}`);
+                        navigate(`/post/${item.idx}`);
                     }}
                 />
             </Container>

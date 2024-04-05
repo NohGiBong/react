@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import CommentList from "../list/CommentList";
 import TextInput from "../ui/TextInput";
 import Button from "../ui/Button";
-import data from "../../data.json"
+// import data from "../../data.json"
+import axios from "axios";
+import PostEditPage from "./PostEditPage";
+
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -48,13 +51,28 @@ const CommentLabel = styled.p`
 
 function PostViewPage() {
     const navigate = useNavigate();
-    const {postId} = useParams();
+    const { postId } = useParams();
 
-    const post = data.find((item) => {
-        return item.id == postId;
-    });
-
+    const [post, setPost] = useState([]);
     const [comment, setComment] = useState("");
+
+    useEffect(() => {
+        axios.get(`/blog/get/${postId}`)
+            .then(response => setPost(response.data))
+            .catch(error => console.error(error));
+    }, []);
+
+
+    const eventDelete = () => {
+        if(window.confirm("삭제?")) {
+            axios.get(`/blog/delete/${postId}`)
+                .then(() => {
+                    alert("삭제됨 ㅇㅇ")
+                    navigate("/");
+                })
+                .catch(error => console.error(error));
+        }
+    }
 
     return (
         <Wrapper>
@@ -65,12 +83,24 @@ function PostViewPage() {
                         }}
                 />
 
+                <Button title="수정"
+                        onClick={() => {
+                            navigate(`/post-edit/${postId}`);
+                        }}
+                />
+
+                <Button title="삭제"
+                        onClick={eventDelete}
+                />
+
                 <PostContainer>
                     <TitleText>{post.title}</TitleText>
                     <ContentText>{post.content}</ContentText>
 
                     <CommentLabel>댓글</CommentLabel>
-                    <CommentList comments={post.comments} />
+                    {/* 미구현
+                    <CommentList comments={post.blogReplyList} /> 
+                    */}
 
                     <TextInput height={40} value={comment}
                         onChange={(event) => {

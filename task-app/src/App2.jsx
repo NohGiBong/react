@@ -17,6 +17,18 @@ export default function App2() {
         setTasks(newTasks);
     };
 
+    const handleChangeStatus = (taskIndex, newStatus) => {
+        setTasks((prevTasks) => {
+            return prevTasks.map((task, index) => {
+                if (index === taskIndex) {
+                    return { ...task, status: newStatus };
+                }
+                return task;
+            });
+        });
+    };
+    
+
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
@@ -25,9 +37,9 @@ export default function App2() {
         <div className='app'>
             <TaskForm2 setTasks={setTasks}/>
             <main className='app_main'>
-                <TaskColumn2 title='할 일' icon={todoIcon} tasks={tasks} status='todo' handleDelete={handleDelete} />
-                <TaskColumn2 title='진행중' icon={doingIcon} tasks={tasks} status='doing' handleDelete={handleDelete}/>
-                <TaskColumn2 title='완 료' icon={doneIcon} tasks={tasks} status='done' handleDelete={handleDelete}/>
+                <TaskColumn2 title='할 일' icon={todoIcon} tasks={tasks} status='todo' handleDelete={handleDelete} handleChangeStatus={handleChangeStatus}/>
+                <TaskColumn2 title='진행중' icon={doingIcon} tasks={tasks} status='doing' handleDelete={handleDelete} handleChangeStatus={handleChangeStatus}/>
+                <TaskColumn2 title='완 료' icon={doneIcon} tasks={tasks} status='done' handleDelete={handleDelete} handleChangeStatus={handleChangeStatus}/>
             </main>
         </div>
     );

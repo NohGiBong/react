@@ -1,7 +1,7 @@
 import './TaskColumn2.css';
 import TaskCard2 from "./TaskCard2.jsx";
 
-export default function TaskColumn2( {title, icon, tasks, status, handleDelete}) {
+export default function TaskColumn2( {title, icon, tasks, status, handleDelete, handleChangeStatus}) {
     return (
         <section className='task_column'>
             <h2 className='task_column_heading'>
@@ -17,7 +17,9 @@ export default function TaskColumn2( {title, icon, tasks, status, handleDelete})
                             key={index}
                             title={task.task}
                             tags={task.tags}
+                            status={status}
                             handleDelete={handleDelete}
+                            handleChangeStatus={handleChangeStatus}
                             index={index}
                         />
                 )
