@@ -1,26 +1,26 @@
 import './TaskColumn2.css';
-import TaskCard2 from "./TaskCard2.jsx";
+import TaskCard2 from './TaskCard2';
 
-export default function TaskColumn2( {title, icon, tasks, status, handleDelete, handleChangeStatus}) {
-    return (
-        <section className='task_column'>
-            <h2 className='task_column_heading'>
-                <img className='task_column_icon' src={icon} alt='title' />
-                {title}
-            </h2>
-
+export default function TaskColumn({ title, icon, tasks, status, handleDelete, setTasks }) {
+	return (
+		<section className='task_column'>
+			<h2 className='task_column_heading'>
+				<img className='task_column_icon' src={icon} alt={title} />
+				{title}
+			</h2>
             {tasks.length > 0
-                ? tasks.map(
-                    (task, index) =>
+				? tasks.map(
+                    (task) =>
                         task.status === status &&
                         <TaskCard2
-                            key={index}
+                            key={task.id}
                             title={task.task}
                             tags={task.tags}
                             status={status}
                             handleDelete={handleDelete}
-                            handleChangeStatus={handleChangeStatus}
-                            index={index}
+                            id={task.id}
+                            task={task}
+                            setTasks={setTasks}
                         />
                 )
                 : null}

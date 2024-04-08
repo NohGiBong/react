@@ -1,9 +1,11 @@
 import {useState} from 'react';
 import './TaskForm2.css';
 import Tag2 from "./Tag2.jsx";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TaskForm2( {setTasks}) {
 	const [taskData, setTaskData] = useState({
+		id: uuidv4(),
 		task: '',
 		status: 'todo',
 		tags: [],
@@ -16,6 +18,7 @@ export default function TaskForm2( {setTasks}) {
 		});
 		// TaskData를 리셋하기
 		setTaskData({
+			id: uuidv4(),
 			task: '',
 			status: 'todo',
 			tags: [],
