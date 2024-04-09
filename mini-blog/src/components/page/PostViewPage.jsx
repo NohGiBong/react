@@ -49,18 +49,48 @@ const CommentLabel = styled.p`
     font-weight: 500;
 `;
 
-function PostViewPage() {
+function PostViewPage(props) {
     const navigate = useNavigate();
     const { postId } = useParams();
 
     const [post, setPost] = useState([]);
+
     const [comment, setComment] = useState("");
+
+    const [comments, setComments] = useState([]);
+
+    const [content, setContent] = useState("");
+
 
     useEffect(() => {
         axios.get(`/blog/get/${postId}`)
             .then(response => setPost(response.data))
             .catch(error => console.error(error));
     }, []);
+
+    useEffect(() => {
+        axios.get(`/blog/reply/list/${postId}`)
+            .then(response => {
+                setComments(response.data)
+            })
+            .catch(error => console.error(error));
+    }, [postId]);
+
+    const submitBlogComment = () => {
+        axios.post(`/blog/replyWrite`, {
+            postId: postId,
+            content: content
+        })
+            .then(() => {
+                setContent("");
+
+                alert("등록 완료");
+                axios.get(`/blog/reply/list/${postId}`)
+                    .then(response => setComments(response.data))
+                    .catch(error => console.error(error));
+            })
+            .catch(err => console.log(err));
+    }
 
 
     const eventDelete = () => {
@@ -98,8 +128,11 @@ function PostViewPage() {
                     <ContentText>{post.content}</ContentText>
 
                     <CommentLabel>댓글</CommentLabel>
+
+                    <CommentList comments={comments} />
+
                     {/* 미구현
-                    <CommentList comments={post.blogReplyList} /> 
+                    <CommentList comments={post.blogReplyList} />
                     */}
 
                     <TextInput height={40} value={comment}
@@ -109,10 +142,7 @@ function PostViewPage() {
                     />
 
                     <Button title="댓글 쓰기"
-                        onClick={() => {
-                            //아직 미구현
-                            navigate("/");
-                        }}
+                            onClick={submitBlogComment}
                     />
                 </PostContainer>
             </Container>
