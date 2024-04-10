@@ -20,7 +20,7 @@ function CommentList(props) {
             {comments.map((comment) => {
                 return (
                     <CommentListItem
-                        key={comment.id}
+                        key={comment.ridx}
                         comment={comment}
                         commentEdit={commentEdit}
                         commentDelete={commentDelete} />
