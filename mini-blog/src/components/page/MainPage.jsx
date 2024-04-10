@@ -25,27 +25,69 @@ const Container = styled.div`
     }
 `;
 
+const Search = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+const StyledSelect = styled.select`
+    padding: 8px;
+`;
+
+const StyledInput = styled.input`
+  padding: 8px;
+`;
+
+
 function MainPage() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
 
+    const [keyword, setKeyword] = useState("");
+    const [searchType, setSearchType] = useState("title");
+
     useEffect(() => {
-        axios.get("/blog/list")
+            getBlogList()
+    }, []);
+
+
+    // 컨트롤러에 데이터를 요청한다
+    // 검색 기능을 사용하고 싶을 땐 params를 같이 넘겨준다. 컨트롤러에선 @RequestParam으로 받는다
+    const getBlogList = () => {
+        axios.get("/blog/list", {params: { searchType, keyword } })
             .then(response => {
                 console.log(response.data);
                 setData(response.data)
             })
             .catch(error => console.error(error));
-    }, []);
+    }
 
     return (
         <Wrapper>
             <Container>
-                <Button title="글쓰기"
-                    onClick={() => {
-                        navigate("/post-write");
-                    }}
-                />
+                <Search>
+                    <Button title="글쓰기"
+                        onClick={() => {
+                            navigate("/post-write");
+                        }}
+                    />
+
+                    <div>
+                        <StyledSelect value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                        </StyledSelect>
+                        <StyledInput
+                            type="text"
+                            placeholder="검색어 입력"
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
+                        />
+                        <Button title="검색" onClick={getBlogList} />
+                    </div>
+
+                </Search>
+
 
                 <PostList posts={data}
                     onClickItem={(item) => {

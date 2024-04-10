@@ -27,7 +27,12 @@ function PostListItem(props) {
 
     return (
         <Wrapper onClick={onClick}>
-            <TitleText>{post.title}</TitleText>
+            <TitleText>
+                {post.title}
+                &nbsp;
+                [{post.blogReplyList.length}]
+            </TitleText>
+
         </Wrapper>
     );
 }

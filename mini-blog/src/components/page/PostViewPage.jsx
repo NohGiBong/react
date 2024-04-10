@@ -4,9 +4,7 @@ import styled from "styled-components";
 import CommentList from "../list/CommentList";
 import TextInput from "../ui/TextInput";
 import Button from "../ui/Button";
-// import data from "../../data.json"
 import axios from "axios";
-import PostEditPage from "./PostEditPage";
 
 
 const Wrapper = styled.div`
@@ -49,8 +47,9 @@ const CommentLabel = styled.p`
     font-weight: 500;
 `;
 
-function PostViewPage(props) {
+function PostViewPage() {
     const navigate = useNavigate();
+
     const { postId } = useParams();
 
     const [post, setPost] = useState([]);
@@ -59,7 +58,7 @@ function PostViewPage(props) {
 
     const [comments, setComments] = useState([]);
 
-    const [content, setContent] = useState("");
+    const [r_idx, setR_idx] = useState("");
 
 
     useEffect(() => {
@@ -69,29 +68,33 @@ function PostViewPage(props) {
     }, []);
 
     useEffect(() => {
-        axios.get(`/blog/reply/list/${postId}`)
+        getReplyList()
+    }, []);
+
+    const getReplyList = () =>  {
+        axios.get(`/blog/replyList/${postId}`)
             .then(response => {
                 setComments(response.data)
+                setComment("")
+                setR_idx("")
             })
             .catch(error => console.error(error));
-    }, [postId]);
+    }
 
     const submitBlogComment = () => {
         axios.post(`/blog/replyWrite`, {
-            postId: postId,
-            content: content
+            blog_idx: postId,
+            content: comment,
+            ridx: r_idx
         })
             .then(() => {
-                setContent("");
-
+                setComment("");
                 alert("등록 완료");
-                axios.get(`/blog/reply/list/${postId}`)
-                    .then(response => setComments(response.data))
-                    .catch(error => console.error(error));
+                // navigate(0)
+                getReplyList()
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log("content"));
     }
-
 
     const eventDelete = () => {
         if(window.confirm("삭제?")) {
@@ -99,6 +102,28 @@ function PostViewPage(props) {
                 .then(() => {
                     alert("삭제됨 ㅇㅇ")
                     navigate("/");
+                })
+                .catch(error => console.error(error));
+        }
+    }
+
+    const commentEdit = (ridx, commentt) => {
+        setR_idx(ridx)
+        setComment(commentt)
+        console.log(ridx, commentt, "ㅋㅋㅋ")
+    }
+
+    const commentEditCancel = () => {
+        setR_idx("")
+        setComment("")
+    }
+
+    const commentDelete = (ridx) => {
+        if(window.confirm("댓글 삭제?")) {
+            axios.get(`/blog/replyDelete/${ridx}`)
+                .then(() => {
+                    alert("댓글 삭제됨 ㅇㅇ")
+                    getReplyList()
                 })
                 .catch(error => console.error(error));
         }
@@ -129,11 +154,7 @@ function PostViewPage(props) {
 
                     <CommentLabel>댓글</CommentLabel>
 
-                    <CommentList comments={comments} />
-
-                    {/* 미구현
-                    <CommentList comments={post.blogReplyList} />
-                    */}
+                    <CommentList comments={comments} commentEdit={commentEdit} commentDelete={commentDelete} />
 
                     <TextInput height={40} value={comment}
                         onChange={(event) => {
@@ -141,15 +162,16 @@ function PostViewPage(props) {
                         }}
                     />
 
-                    <Button title="댓글 쓰기"
+                    <Button title={r_idx == "" ? "댓글 쓰기" : "댓글 수정"}
                             onClick={submitBlogComment}
                     />
+                    {r_idx == "" ? "" : <Button title="취소" onClick={commentEditCancel} />
+                    }
+
                 </PostContainer>
             </Container>
         </Wrapper>
     )
 }
-
-
 
 export default PostViewPage;
