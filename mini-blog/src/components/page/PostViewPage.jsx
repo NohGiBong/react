@@ -65,10 +65,12 @@ function PostViewPage() {
         axios.get(`/blog/get/${postId}`)
             .then(response => setPost(response.data))
             .catch(error => console.error(error));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         getReplyList()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getReplyList = () =>  {
@@ -93,7 +95,7 @@ function PostViewPage() {
                 // navigate(0)
                 getReplyList()
             })
-            .catch(err => console.log("content"));
+            .catch(err => console.log(err));
     }
 
     const eventDelete = () => {
@@ -162,10 +164,10 @@ function PostViewPage() {
                         }}
                     />
 
-                    <Button title={r_idx == "" ? "댓글 쓰기" : "댓글 수정"}
+                    <Button title={r_idx === "" ? "댓글 쓰기" : "댓글 수정"}
                             onClick={submitBlogComment}
                     />
-                    {r_idx == "" ? "" : <Button title="취소" onClick={commentEditCancel} />
+                    {r_idx === "" ? "" : <Button title="취소" onClick={commentEditCancel} />
                     }
 
                 </PostContainer>

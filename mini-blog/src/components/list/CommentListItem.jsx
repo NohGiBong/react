@@ -32,11 +32,11 @@ const ContentText = styled.p`
 function CommentListItem(props) {
     const { comment, commentEdit, commentDelete } = props;
 
-    const editEvent = e => {
+    const editEvent = () => {
         commentEdit(comment.ridx, comment.content)
     }
 
-    const deleteEvent = e => {
+    const deleteEvent = () => {
         commentDelete(comment.ridx)
     }
 

@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import PostListItem from "./PostListItem";
-import axios from "axios";
-import {useState} from "react";
-import {useParams} from "react-router-dom";
 
 const Wrapper = styled.div`
     display: flex;

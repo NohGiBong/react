@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CommentListItem from "./CommentListItem";
+import React from "react";
 
 const Wrapper = styled.div`
     display: flex;
@@ -11,8 +12,18 @@ const Wrapper = styled.div`
         margin-bottom: 16px;
     }
 `;
+type Comment = {
+    ridx: number;
+    // 다른 필드들의 타입 정의
+};
 
-function CommentList(props) {
+type CommentListProps = {
+    comments: Comment[];
+    commentEdit: (idx: number) => void;
+    commentDelete: (idx: number) => void;
+};
+
+function CommentList(props: CommentListProps) {
     const { comments, commentEdit, commentDelete } = props;
 
     return (

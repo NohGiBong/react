@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PostList from "../list/PostList";
@@ -48,6 +48,7 @@ function MainPage() {
 
     useEffect(() => {
             getBlogList()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -73,7 +74,7 @@ function MainPage() {
                     />
 
                     <div>
-                        <StyledSelect value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                        <StyledSelect value={searchType} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSearchType(e.target.value)}>
                             <option value="title">제목</option>
                             <option value="content">내용</option>
                         </StyledSelect>
@@ -81,7 +82,7 @@ function MainPage() {
                             type="text"
                             placeholder="검색어 입력"
                             value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setKeyword(e.target.value)}
                         />
                         <Button title="검색" onClick={getBlogList} />
                     </div>

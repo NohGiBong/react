@@ -22,7 +22,12 @@ const TitleText = styled.p`
     font-weight: 500;
 `;
 
-function PostListItem(props) {
+interface Post {
+    title: string;
+    blogReplyList: any[];
+}
+
+function PostListItem(props: {post: Post}) {
     const { post, onClick } = props;
 
     return (
